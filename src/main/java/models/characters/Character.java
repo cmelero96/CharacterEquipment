@@ -5,29 +5,37 @@ import models.equipment.interfaces.DefenseWeapon;
 import models.equipment.interfaces.Weapon;
 
 public abstract class Character {
-	
+
 	String name;
 
 	AttackWeapon mainHand;
 	Weapon offHand;
-	
+
 	public void attack() {
+		if (mainHand == null) {
+			System.out.println("Nothing to attack with!");
+			return;
+		}
+
 		mainHand.action();
 		if (offHand instanceof AttackWeapon)
 			offHand.action();
 	}
-	
+
 	public void block() {
 		if (offHand instanceof DefenseWeapon)
 			offHand.action();
 		else
 			System.out.println("Nothing to block with!");
 	}
-	
-	public void equipMain(AttackWeapon item) {
-		this.mainHand = item;
+
+	public void equipMain(Weapon item) {
+		if (item instanceof AttackWeapon)
+			this.mainHand = (AttackWeapon) item;
+		else
+			System.out.println("Cannot equip this on the main hand!");
 	}
-	
+
 	public void equipOff(Weapon item) {
 		this.offHand = item;
 	}
@@ -55,5 +63,5 @@ public abstract class Character {
 	public void setOffHand(Weapon offHand) {
 		this.offHand = offHand;
 	}
-	
+
 }
